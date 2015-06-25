@@ -1,0 +1,69 @@
+% Sandra Ning, start: 6/24/15 end: 
+% Understanding abundance, mass fraction, etc. in r-process
+% LaTeX document
+
+\documentclass[11pt, letterpaper]{article}
+
+\usepackage{graphicx, amsmath, amsfonts, amssymb, color, latexsym, multicol}
+\usepackage[latin1]{inputenc}
+\usepackage{mathpazo}
+\usepackage[T1]{fontenc}
+
+\usepackage[top=1in, bottom=1in, left=1in, right=1in]{geometry}
+
+\setlength{\parskip}{.15cm}
+\setlength{\parindent}{0.0cm}
+
+\begin{document}
+
+\section{PROTON MASS FRACTION}
+
+The mass fraction of a proton is
+
+\begin{equation} 
+X_p = \frac{\sum_{i}Z_iY_i}{\sum_{i}A_iY_i} 
+\end{equation}
+
+where:
+\begin{multicols}{2}
+\begin{center}
+
+$X_p =$ mass fraction of a proton
+
+$Z_i =$ atomic (proton) number
+
+\columnbreak
+
+$A_i =$ mass number
+
+$Y_i$ = abundance
+
+\end{center}
+\end{multicols}
+
+\indent The numerator is the sum total of protons in every nuclide present in some matter(in our case, the NS-NS merger ejecta undergoing r-process), while the denominator is the sum total of nucleons (protons and neutrons) in every nuclide present in the matter. It is important to note that: 
+\begin{equation} 
+\sum_{i}A_iY_i = \sum_{i}X_i
+\end{equation}
+because the sum total of nucleons is essentially the total mass of all nuclides in the matter. The mass fraction of every nuclide, summed up, is 1, or 100\% of the nuclides present. Thus, 
+\begin{equation} 
+\sum_{i}X_i = 1
+\end{equation}
+
+\indent Matter tends to be electrically neutral, because charged particles experience electromagnetic force that quickly corrects charge imbalances. This means that there are as many electrons as there are protons. In other words, 
+\begin{equation} 
+Y_e = \sum_{i}Z_iY_i
+\end{equation}
+where $Y_e$ is abundance of electrons. Abundance describes the number of a given particle within the matter being studied. Abundance changes only when the particle is destroyed or created, and is not affected by changes in the density of the matter$^{1}$. Thus, the abundance of electrons is equal to the sum total of protons in a given matter. Recalling equations 2 and 3, electron abundance can also be written as: 
+\begin{equation} 
+Y_e = \frac{\sum_{i}Z_iY_i}{\sum_{i}A_iY_i}
+\end{equation}
+\begin{equation} 
+Y_e = X_p
+\end{equation}
+Thus, we can calculate the electron abundance, which increases during the r-process due to beta decay of a neutron to a proton \[n \rightarrow p + e^- + \bar v_e\] from proton mass fraction values.
+
+\section{Using Equation to Confirm Skynet's $Y_e$ Values}
+
+
+\end{document}
