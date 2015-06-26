@@ -52,10 +52,6 @@ skynet_Yeplot, = plt.semilogx(T, Y_e, "r", linewidth = 2)
 calc_Yeplot = plt.semilogx(T, calc_Ye, "b", linewidth = 2, ls = '--')
 
 
-#plt.xlim(min(T), max(T))
-#plt.xscale('log"')
-#plt.ylim(min(Y_e) * 1.05, max(Y_e) * 1.05)
-
 plt.xlabel("Time (s)")
 plt.ylabel("Abundance Y_e")
 
@@ -65,4 +61,6 @@ plt.legend( handles=[skynet_patch, calc_patch], \
 	loc = (0, max(Y_e)), frameon=False)
 
 plt.show()
+
+# Doesn't show anything... :/
 plt.savefig("confirmYe.pdf")
