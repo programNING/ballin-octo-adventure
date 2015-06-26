@@ -1,7 +1,3 @@
-% Sandra Ning, start: 6/24/15 end: 
-% Understanding abundance, mass fraction, etc. in r-process
-% LaTeX document
-
 \documentclass[11pt, letterpaper]{article}
 
 \usepackage{graphicx, amsmath, amsfonts, amssymb, color, latexsym, multicol}
@@ -61,9 +57,20 @@ Y_e = \frac{\sum_{i}Z_iY_i}{\sum_{i}A_iY_i}
 \begin{equation} 
 Y_e = X_p
 \end{equation}
-Thus, we can calculate the electron abundance, which increases during the r-process due to beta decay of a neutron to a proton \[n \rightarrow p + e^- + \bar v_e\] from proton mass fraction values.
+Thus, we can calculate the electron abundance, which increases during the r-process due to beta decay of a neutron to a proton \[n \rightarrow p + e^- + \bar v_e\] from equation 1.
 
 \section{Using Equation to Confirm Skynet's $Y_e$ Values}
 
+\indent We will confirm that SkyNet's output values for $Y_e$ match those calculated from equation 1. In order to do that, we need values for $A_i$, $Z_i$, and $Y_i$. SkyNet provides these values for its example r-process run in an HDF5 dataset, SkyNet\_r-process\_python.h5.
+
+\indent I copied the aforementioned file from Fermi to my personal computer, where I wrote a program to read the data, calculate $Y_e$, and plot it alongside SkyNet's values. This program, confirmYe.py, does the following things:
+
+\indent \textit{Read data from the .h5 file.} Using h5py, a program designed that allows Python interface with HDF5 files, I opened the file and assigned the datasets of interest ($A$, $Z$, $Y_e$, time) to numpy arrays.
+
+\indent \textit{Calculated $Y_e$ for all time steps.} Using numpy matrix operations, I used equation 1 to calculate $Y_e$. More specifically, I used numpy.dot() to perform the dot product of the abundance array (which was a 2147x7841 array) and the nucleon/proton number arrays (2147x1 arrays). This is equivalent to summing $Z_iY_i$ and $A_iY_i$ for all nuclides for all timesteps. I then divided the resulting proton  $\cdot$ abundance array by the nucleon $\cdot$ abundance array to calculate $X_p = Y_e$.
+
+\indent\textit{Plotted the results next to SkyNet's results.} Using matplotlib pyplot commands, I was able to plot the two values of $Y_e$ on the same plot. The legend was hard to place (the loc parameter was hard to describe because of the logarithmic x-axis), and is situated awkwardly next to the y-axis.
+
+\indent I am still facing problems with the legend placement, and saving the generated figure (the file, when saved, appears blank). Also, I don't know if I'm uploading things to GitHub correctly.
 
 \end{document}
