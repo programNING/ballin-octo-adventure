@@ -15,7 +15,11 @@
 #include "Reactions/Neutrino.hpp" 
 #include "Reactions/NeutrinoReactionLibrary.hpp" 
 
-int main(int, char**) {
+#include <iostream>
+#include <fstream>
+#include <cstring>
+
+int main(int argc, char *argv[]) {
   auto nuclib = NuclideLibrary::CreateFromWebnucleoXML(
       SkyNetRoot + "/data/webnucleo_nuc_v2.0.xml");
 
@@ -42,34 +46,65 @@ int main(int, char**) {
 
   ReactionNetwork net(nuclib, { &weakReactionLibrary, &strongReactionLibrary,
       &symmetricFission, &spontaneousFission, &neutrinoLibrary }, &helm, opts);
-
-  double T0 = 1.0;
-  double Ye = 0.3;
-  double s = 10.0;
-  double tau = 15.0;
   
-  const double ENUE = 12.0; 
-  const double ENUB = 12.0; 
-  const double LNUE = 1.e53; 
-  const double LNUB = 1.e53;
-  const double RAD  = 1.e8; 
+  // might wanna add multiple files for loop
+
+  double T0 = 50.0;
+  double Ye = 0.05;
+  double s = 10.0;
+  double tau = 10.0;
+
+  double ENUE = 12.0; // wont work w const double?
+  double ENUB = 12.0;
+  double LNUE = 1.e53;
+  double LNUB = 1.e53;
+  double IRAD = 1.e8;
+  double FRAD = 1.e8;
+
+  char filename[50] = "baseinputs"
+
+  if (argc > 1) 
+  {
+    std::fstream infile;
+    infile.open(argv[1], ios::in);
+    if (infile.is_open()) 
+    {
+      infile.getline(filename, 50, '\n');
+      infile >> T0;
+      infile >> Ye;
+      infile >> s;
+      infile >> tau;
+      infile >> ENUE;
+      infile >> ENUB;
+      infile >> LNUE;
+      infile >> LNUB;
+      infile >> IRAD;
+      infile >> FRAD;
+      infile.close();
+    }
+    else 
+    {
+      std::cout << "Could not open file.";
+    }
+
   std::unique_ptr<NeutrinoHistory> nuHist( new NeutrinoHistoryThermal (
-      LNUE, ENUE, LNUB, ENUB, {0.0, 1.e20}, {RAD, RAD}, false) );
+      LNUE, ENUE, LNUB, ENUB, {0.0, 1.e20}, {IRAD, FRAD}, false) );
   
   net.LoadNeutrinoHistory(nuHist);
   
   // run NSE with the temperature and entropy to find the initial density
+  
   auto nseResult = NSE::CalcFromTemperatureAndEntropy(T0, s, Ye,
     net.GetNuclideLibrary(), &helm);
 
   auto densityProfile = ExpTMinus3(nseResult.Rho(), tau / 1000.0);
 
   auto output = net.EvolveSelfHeatingWithInitialTemperature(nseResult.Y(), 0.0,
-      1.0E9, T0, &densityProfile, "SkyNet_r-process");
+      1.0E9, T0, &densityProfile, filename);
 
   std::vector<double> finalYVsA = output.FinalYVsA();
 
-  FILE * f = fopen("final_y_r-process", "w");
+  FILE * f = fopen(strcat(filename, "_final_y"), "w");
   for (unsigned int A = 0; A < finalYVsA.size(); ++A)
     fprintf(f, "%6i  %30.20E\n", A, finalYVsA[A]);
 }
