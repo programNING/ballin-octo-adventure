@@ -4,6 +4,7 @@ import matplotlib as mpl
 import matplotlib.pyplot as plt
 import random as r
 import palettable as pltable
+import sys
 
 def main(argv):
 	dictlist = []
@@ -36,15 +37,11 @@ def abundancevmass(fil):
 
 	# For loop iterating over nuclides--all with the same mass number
 	# need to have their abundances added together.
-	print 'Length of A: ', len(A)
 	for i in range(len(A)):
 		if A[i] in yzdict:
 			yzdict[A[i]] += Y[i]
 		else:
 			yzdict[A[i]] = Y[i]
-
-	print min(yzdict, key=yzdict.get)
-	print 'Length of yzdict:', len(yzdict)
 	return yzdict
 
 
