@@ -5,6 +5,15 @@ import matplotlib.pyplot as plt
 import random as r
 import palettable as pltable
 
+def main(argv):
+	dictlist = []
+	leglst = []
+	for i in argv:
+		dictlist.append(abundancevmass(i))
+		leglst.append(i)
+	plot_many(dictlist, leglst)
+
+
 def abundancevmass(fil):
 	infile = h5.File(fil, 'r')
 
@@ -58,3 +67,6 @@ def plot_many(lst, legend_lst):
 
 
 	plt.show()
+
+if __name__ == "__main__":
+	main(sys.argv[1:])
